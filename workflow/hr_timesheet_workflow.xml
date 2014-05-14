@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<openerp>
+	<data>
+		<record id="wkf_hr_timesheet" model="workflow">
+			<field name="name">Timesheet</field>
+			<field name="osv">hr.timetable</field>
+			<field name="on_create">True</field>
+		</record>	
+		<record id="act_draft_timesheet" model="workflow.activity">
+			<field name="wkf_id" ref="wkf_hr_timesheet"/>
+			<field name="name">draft</field>
+			<field name="flow_start">True</field>
+			<field name="kind">dummy</field>
+		</record>
+		<record id="act_confirm_timesheet" model="workflow.activity">
+			<field name="wkf_id" ref="wkf_hr_timesheet"/>
+			<field name="name">confirm</field>
+			<field name="action">workflow_action_confirm()</field>
+			<field name="kind">function</field>
+		</record>
+		<record id="act_approve_timesheet" model="workflow.activity">
+			<field name="wkf_id" ref="wkf_hr_timesheet"/>
+			<field name="name">approve</field>
+			<field name="action">workflow_action_approve()</field>
+			<field name="kind">function</field>
+			<field name="flow_stop" eval="True"/>
+		</record>
+		<record id="act_cancel_timesheet" model="workflow.activity">
+			<field name="wkf_id" ref="wkf_hr_timesheet"/>
+			<field name="name">cancel</field>
+			<field name="action">workflow_action_cancel()</field>
+			<field name="kind">function</field>
+			<field name="flow_stop" eval="True"/>
+		</record>
+		<record id="transition_draft_to_confirm" model="workflow.transition">
+			<field name="act_from" ref="act_draft_timesheet"/>
+			<field name="act_to" ref="act_confirm_timesheet"/>
+			<field name="signal">button_confirm</field>
+			<field name="condition">True</field>
+		</record>
+		<record id="transition_confirm_to_approve" model="workflow.transition">
+			<field name="act_from" ref="act_confirm_timesheet"/>
+			<field name="act_to" ref="act_approve_timesheet"/>
+			<field name="signal">button_approve</field>
+			<field name="condition">True</field>
+		</record>
+		<record id="transition_draft_to_cancel" model="workflow.transition">
+			<field name="act_from" ref="act_draft_timesheet"/>
+			<field name="act_to" ref="act_cancel_timesheet"/>
+			<field name="signal">button_cancel</field>
+			<field name="condition">True</field>
+		</record>
+		<record id="transition_confirm_to_cancel" model="workflow.transition">
+			<field name="act_from" ref="act_confirm_timesheet"/>
+			<field name="act_to" ref="act_cancel_timesheet"/>
+			<field name="signal">button_cancel</field>
+			<field name="condition">True</field>
+		</record>
+		<record id="transition_approve_to_cancel" model="workflow.transition">
+			<field name="act_from" ref="act_approve_timesheet"/>
+			<field name="act_to" ref="act_cancel_timesheet"/>
+			<field name="signal">button_cancel</field>
+			<field name="condition">True</field>
+		</record>
+	</data>
+</openerp>

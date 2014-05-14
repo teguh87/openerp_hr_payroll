@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf8"?>
+<openerp>
+	<data>
+		<record id="group_hr_createovertime" model="res.groups">
+			<field name="name">Create Overtime</field>
+			<field name="category_id" ref="hr_overtime_app"/>
+		</record>
+
+		<record id="group_hr_confirmovertime" model="res.groups">
+			<field name="name">Confirm Overtime</field>
+			<field name="category_id" ref="hr_overtime_app"/>
+		</record>
+		<record id="group_hr_approveovertime" model="res.groups">
+			<field name="name">Opprove Overtime</field>
+			<field name="category_id" ref="hr_overtime_app"/>
+		</record>
+		<record id="group_hr_cancelovertime" model="res.groups">
+			<field name="name">Cancel Overtime</field>
+			<field name="category_id" ref="hr_overtime_app"/>
+		</record>
+		<record id="group_hr_restartovertime" model="res.groups">
+			<field name="name">Restart Overtime</field>
+			<field name="category_id" ref="hr_overtime_app"/>
+		</record>
+
+	</data>
+</openerp>

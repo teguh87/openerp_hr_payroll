@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+		<record id="hr_timetable_view_calendar" model="ir.ui.view">
+            <field name="name">Timetable</field>
+            <field name="model">hr.timetable</field>
+            <field name="arch" type="xml">
+                <calendar string="Timetable" color="name" date_start="date_from" date_stop="date_to">
+                    <field name="name"/>
+                    <field name="state"/>
+                </calendar>
+            </field>
+        </record>
+		<record id="hr_timetable_view_tree" model="ir.ui.view">
+			<field name="name">hr.timetable_view_tree</field>
+			<field name="model">hr.timetable</field>
+			<field name="type">tree</field>
+			<field name="arch" type="xml">
+				<tree string="Timetable">
+					<field name="name"/>
+					<field name="date_from"/>
+					<field name="date_to"/>
+					<field name="numbers_of_days"/>
+					<field name="state"/>
+				</tree>
+			</field>
+		</record>
+		<record id="hr_timetable_view_form" model="ir.ui.view">
+			<field name="name">hr.timetable_view_form</field>
+			<field name="model">hr.timetable</field>
+			<field name="group_id" eval="[(6, 0, [ref('base.group_user') ])]"/>
+			<field name="type">form</field>
+			<field name="arch" type="xml">
+				<form string="Timetable" version="7.0">
+					<header>
+						<button name="button_confirm" type="workflow" string="Confirm" states="draft" class="oe_highlight" groups="l10n_id_hr_timesheet.group_hr_confirmtimesheet"/>
+						<button name="button_approve" type="workflow" string="Approve" states="confirm" class="oe_highlight" groups="l10n_id_hr_timesheet.group_hr_approvetimesheet"/>
+						<button name="button_cancel" type="workflow" string="Cancel" states="confirm" class="oe_highlight" groups="l10n_id_hr_timesheet.group_hr_canceltimesheet"/>
+
+						<button name="action_cancel" type="object" string="Cancel" states="approve" groups="l10n_id_hr_timesheet.group_hr_canceltimesheet"/>
+						<button name="action_set_draft" type="object" string="Set To Draft" states="cancel" groups="l10n_id_hr_timesheet.group_hr_restarttimesheet"/>
+
+						<field name="state" widget="statusbar" statusbar_visible="draft, confirm, approve"/>
+					</header>
+
+					<sheet>
+						<group>
+							<group>
+								<field name="name"/>
+								<label for="numbers_of_days" help="The default duration interval between the start date and the end date is 8 hours.  Feel free to adapt it to your needs."/>
+								<div>
+									<group col="3">
+										<field name="date_from" nolabel="1" on_change="onchange_date_from(date_to, date_from)" required="1" class="oe_inline"/>
+										<field name="date_to" nolabel="1" on_change="onchange_date_to(date_to, date_from)" required="1" class="oe_inline"/>
+									</group>
+									<div>
+										<field name="numbers_of_days" class="oe_inline"/> days
+									</div>
+								</div>
+								<field name="parent_id"/>
+							</group>
+							<group>
+								<newline/>
+							</group>
+						</group>
+						<notebook>
+							<page string="Timetable Detail">
+								<group>
+									<group col="2" colspan="4" string="Personil">
+										<field name="personil" nolabel="1" colspan="4"/>
+									</group>
+									<group col="2" colspan="4" string="Work Pattern">
+										<field name="work_pattern" widget="one2many_list" nolabel="1" colspan="4">
+											<tree string="Pattern" editable="bottom">
+												<field name="sequence" widget="handle"/>	
+												<field name="name"/>
+												<field name="work_start" widget="float_time"/>
+												<field name="work_end" widget="float_time"/>
+												<field name="rest_start" widget="float_time"/>
+												<field name="rest_end" widget="float_time"/>
+												<field name="tolerance"/>
+											</tree>
+										</field>
+									</group>
+								</group>
+							</page>
+							<page string="Notes" colspan="4">
+								<field name="notes" colspan="4"/>
+							</page>
+							<page string="Audit Trial">
+								<group colspan="4" col="3">
+									<field name="create_by"/>
+									<field name="create_time" nolabel="1"/>
+									<field name="confirm_by"/>
+									<field name="confirm_time" nolabel="1"/>
+									<field name="approve_by"/>
+									<field name="approve_time" nolabel="1"/>
+									<field name="cancel_by"/>
+									<field name="cancel_time" nolabel="1"/>
+								</group>
+							</page>
+						</notebook>
+					</sheet>
+				</form>	
+			</field>
+		</record>
+		<record id="hr_timetable_actions" model="ir.actions.act_window">
+			<field name="name">Timetable</field>
+			<field name="res_model">hr.timetable</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">calendar,tree,form</field>
+		</record>
+		<record model="ir.actions.act_window.view" id="action_open_ask_timetable_calendar">
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">calendar</field>
+            <field name="view_id" ref="hr_timetable_view_calendar"/>
+            <field name="act_window_id" ref="hr_timetable_actions"/>
+        </record>
+
+		<record  id="hr_timetable_actions_tree" model="ir.actions.act_window.view">
+			<field name="sequence" eval="2"/>
+			<field name="view_mode">tree</field>
+			<field name="view_id" ref="hr_timetable_view_tree"/>
+			<field name="act_window_id" ref="hr_timetable_actions"/>
+		</record>
+		<record  id="hr_timetable_actions_form" model="ir.actions.act_window.view">
+			<field name="sequence" eval="3"/>
+			<field name="view_mode">form</field>
+			<field name="view_id" ref="hr_timetable_view_form"/>
+			<field name="act_window_id" ref="hr_timetable_actions"/>
+		</record>
+		
+	
+        <record model="ir.actions.act_window" id="request_approve_timetable">
+            <field name="name">Timesheet to Approve</field>
+            <field name="res_model">hr.timetable</field>
+            <field name="view_type">form</field>
+            <field name="domain">[('state','=','draft')]</field>
+			<field name="view_mode">tree,form</field>
+        </record>
+
+        <record model="ir.actions.act_window.view" id="action_timetable_to_approve_tree">
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="hr_timetable_view_tree"/>
+            <field name="act_window_id" ref="request_approve_timetable"/>
+        </record>
+
+        <record model="ir.actions.act_window.view" id="action_timetable_to_approve_form">
+            <field name="sequence" eval="2"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="hr_timetable_view_form"/>
+            <field name="act_window_id" ref="request_approve_timetable"/>
+        </record>
+		<menuitem 
+			id="hr_timemanagement_menu"
+			sequence="4"
+			parent="hr.menu_hr_root"
+			name="Time Management"
+			/>
+		<menuitem
+			id="hr_timetable_menu"
+			sequence="15"
+			parent="hr_timemanagement_menu"
+			name="Timetsheet"
+			action="hr_timetable_actions"
+			/>
+		<menuitem name="Timetsheet Request to Approve" parent="hr_timemanagement_menu" id="menu_request_approve_timetable" sequence="16" action="request_approve_timetable" groups="base.group_hr_user"/>
+
+
+
+	</data>
+</openerp>

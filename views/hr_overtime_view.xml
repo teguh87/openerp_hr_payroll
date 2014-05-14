@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<openerp>
+	<data>
+		<record id="hr_overtime_view_tree" model="ir.ui.view">
+			<field name="name">Overtime</field>
+			<field name="model">hr.overtime</field>
+			<field name="type">tree</field>
+			<field name="arch" type="xml">
+				<tree string="Overtime">
+					<field name="name"/>
+					<field name="employee_id"/>
+					<field name="date_request"/>
+					<field name="state"/>
+				</tree>
+			</field>
+		</record>
+		<record id="hr_overtime_view_form" model="ir.ui.view">
+			<field name="name">Overtime</field>
+			<field name="model">hr.overtime</field>
+			<field name="type">form</field>
+			<field name="arch" type="xml">
+				<form string="Overtime" version="7.0">
+					<header>
+						
+						<button name="button_confirm" type="workflow" string="Confirm" states="draft" class="oe_highlight" groups="l10n_id_hr_timesheet.group_hr_confirmovertime"/>
+						<button name="button_approve" type="workflow" string="Approve" states="confirm" class="oe_highlight" groups="l10n_id_hr_timesheet.group_hr_approveovertime"/>
+						<button name="button_cancel" type="workflow" string="Cancel" states="draft,confirm" class="oe_highlight" groups="l10n_id_hr_timesheet.group_hr_cancelovertime"/>
+
+						<button name="action_cancel" type="object" string="Cancel" states="approve" groups="l10n_id_hr_timesheet.group_hr_cancelovertime"/>
+						<button name="action_draft" type="object" string="Set To Draft" states="cancel" groups="l10n_id_hr_timesheet.group_hr_restartovertime"/>
+						<field name="state" widget="statusbar" statusbar_visible="draft, confirm, approve"/>
+
+					</header>
+					<sheet>
+						<h1>
+							Overtime Requested
+						</h1>
+						<group name="overtime_detail" colspan="4" col="2">
+							<group name="overtime_detail_name" colspan="1" col="2">
+								<field name="name"/>
+								<field name="employee_id"/>
+							</group>
+							<group name="overtime_detail_request" colspan="1" cols="4">
+								<field name="date_request"/>
+							</group>
+						</group>
+						<group>
+							<group string="Duration">
+								<field name="hour_start"  widget="float_time"/>
+								<field name="hour_end"  widget="float_time"/>	
+								<field name="duration"/>
+
+							</group>
+							<group><newline/></group>
+						</group>
+					
+						<notebook colspan="4">
+							<page string="Description">
+								<field name="desc" colspan="4"/>
+							</page>
+							<page string="Audit Trial">
+								<group id="hr_overtime_detail_audit" colspan="4" col="3">
+									<field name="create_by"/>
+									<field name="create_time" nolabel="1"/>
+									<field name="approve_by"/>
+									<field name="approve_time" nolabel="1"/>
+									<field name="cancel_by"/>
+									<field name="cancel_time" nolabel="1"/>
+							   </group>
+							</page>	
+						</notebook>
+					</sheet>
+				</form>
+			</field>
+		</record>
+		<record id="hr_overtime_action" model="ir.actions.act_window">
+			<field name="name">Overtime</field>
+			<field name="res_model">hr.overtime</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+		<record id="hr_overtime_action_tree" model="ir.actions.act_window.view">
+			<field name="sequence" eval="10"/>
+			<field name="view_mode">tree</field>
+			<field name="view_id" ref="hr_overtime_view_tree"/>
+			<field name="act_window_id" ref="hr_overtime_action"/>
+		</record>
+		<record id="hr_overtime_action_form" model="ir.actions.act_window.view">
+			<field name="sequence" eval="20"/>
+			<field name="view_mode">form</field>
+			<field name="view_id" ref="hr_overtime_view_form"/>
+			<field name="act_window_id" ref="hr_overtime_action"/>
+		</record>
+		<menuitem
+			id="hr_overtime_menu"
+			name="Overtime Request"
+			sequence="18"
+			parent="hr_timemanagement_menu"
+			action="hr_overtime_action"
+			/>
+	</data>
+</openerp>

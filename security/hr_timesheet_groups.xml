@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+		<record id="group_hr_createtimesheet" model="res.groups">
+			<field name="name">Create Timesheet</field>
+			<field name="category_id" ref="hr_timetable_app"/>
+		</record>
+		<record id="group_hr_confirmtimesheet" model="res.groups">
+			<field name="name">Confirm Timesheet</field>
+			<field name="category_id" ref="hr_timetable_app"/>
+		</record>
+		<record id="group_hr_approvetimesheet" model="res.groups">
+			<field name="name">Approve Timesheet</field>
+			<field name="category_id" ref="hr_timetable_app"/>
+		</record>
+		<record id="group_hr_canceltimesheet" model="res.groups">
+			<field name="name">Refuse Timesheet</field>
+			<field name="category_id" ref="hr_timetable_app"/>
+		</record>
+		<record id="group_hr_restarttimesheet" model="res.groups">
+			<field name="name">Restart Timesheet</field>
+			<field name="category_id" ref="hr_timetable_app"/>
+		</record>
+	</data>
+</openerp>

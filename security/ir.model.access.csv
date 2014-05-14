@@ -1,0 +1,8 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_hr_timetable,access_hr_timetable,model_hr_timetable,,1,1,1,1
+access_hr_persons,access_hr_persons,model_hr_persons,,1,1,1,1
+access_hr_work_pattern,access_hr_work_pattern,model_hr_work_pattern,,1,1,1,1
+access_hr_audit_timesheet_employee,access_hr_audit_timesheet_employee,model_hr_audit_timesheet_employee,,1,1,1,1
+access_hr_recon,access_hr_recon,model_hr_recon,,1,1,1,1
+access_hr_overtime,access_hr_overtime,model_hr_overtime,,1,1,1,1
+access_hr_performance,access_hr_performance,model_hr_performance,,1,1,1,1

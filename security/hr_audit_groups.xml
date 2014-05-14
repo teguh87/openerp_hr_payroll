@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf8"?>
+<openerp>
+	<data>
+		<record id="group_hr_createaudit" model="res.groups">
+			<field name="name">Create Audit</field>
+			<field name="category_id" ref="hr_audit_app"/>
+		</record>
+
+		<record id="group_hr_confirmaudit" model="res.groups">
+			<field name="name">Confirm Audit</field>
+			<field name="category_id" ref="hr_audit_app"/>
+		</record>
+		<record id="group_hr_approveaudit" model="res.groups">
+			<field name="name">Opprove Audit</field>
+			<field name="category_id" ref="hr_audit_app"/>
+		</record>
+		<record id="group_hr_cancelaudit" model="res.groups">
+			<field name="name">Cancel Audit</field>
+			<field name="category_id" ref="hr_audit_app"/>
+		</record>
+		<record id="group_hr_restartaudit" model="res.groups">
+			<field name="name">Restart Audit</field>
+			<field name="category_id" ref="hr_audit_app"/>
+		</record>
+
+	</data>
+</openerp>

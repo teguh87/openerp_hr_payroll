@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+		<record id="hr_timesheet_calc_view_tree" model="ir.ui.view">
+			<field name="name">Timesheet Calc</field>
+			<field name="model">hr.audit_timesheet_employee</field>
+			<field name="type">tree</field>
+			<field name="arch" type="xml">
+				<field name="ref_id"/>
+				<field name="employee_id"/>
+				<field name="periode"/>
+				<field name="year"/>
+				<field name="state"/>
+			</field>
+		</record>
+		<record id="hr_mechine_form" model="ir.ui.view">
+			<field name="name">Attendance Mechine</field>
+			<field name="model">base.address</field>
+			<field name="arch" type="xml">
+				<form string="Attendace Mechine">
+					<group>
+						<field name="location" placeholder="e.g Head Office"/>
+						<field name="host" placeholder="192.168.1.201"/>
+						<field name="port" placeholder="4470"/>
+						<field name="auth"/>
+
+					</group>
+				</form>
+			</field>
+		</record>
+		<record id="hr_timesheet_calc_view_form" model="ir.ui.view">
+			<field name="name">Timesheet Calc</field>
+			<field name="model">hr.audit_timesheet_employee</field>
+			<field name="type">form</field>
+			<field name="arch" type="xml">
+				<form string="Timesheet Calc"  version="7.0">
+					
+					<header>
+						<button name="button_confirm" type="workflow" string="Confirm" states="draft" class="oe_highlight" groups="l10n_id_hr_timesheet.group_hr_confirmaudit"/>
+						<button name="button_approve" type="workflow" string="Approve" states="confirm" class="oe_highlight" groups="l10n_id_hr_timesheet.group_hr_approveaudit"/>
+						<button name="button_cancel" type="workflow" string="Cancel" states="confirm,approve" class="oe_highlight" groups="l10n_id_hr_timesheet.group_hr_cancelaudit"/>	
+						<button name="action_cancel" type="object" string="Cancel" states="draft" groups="l10n_id_hr_timesheet.group_hr_cancelaudit"/>
+						<button name="action_set_draft" type="object" string="Set To Draft" states="cancel" groups="l10n_id_hr_timesheet.group_hr_restartaudit"/>
+						<field name="state" widget="statusbar" statusbar_visible="draft, confirm, approve"/>
+					</header>
+					
+					<sheet>
+						<group>
+							<group string="Process Details">
+								<field name="ref_id"/>
+								<label for="mode"/>
+								<div>
+									<group col="3">
+										<field name="mode" nolabel="1"/>
+										<field name="file" nolabel="1" attrs="{'invisible':[('mode','!=', 1)]}"/>
+										<field name="mechine" nolabel="1" attrs="{'invisible':[('mode','=', 1)]}"/>
+									</group>
+								</div>
+								<field name="employee_id" on_change="employee_calc(employee_id, mode, file, mechine, periode,year)"/>
+
+							</group>
+							<group string="Periode Absensi">
+								<field name="periode"/>
+								<field name="year"/>
+
+							</group>
+						</group>
+						<notebook>
+							<page string="Details" colspan="4">
+								<field name="performance_ids" colspan="4" nolabel="1">
+									<tree widget="one2many_list" edit="false" create="false" delete="false">
+										<field name="tanggal"/>
+										<field name="day_type"/>
+										<field name="sign_in"/>
+										<field name="sign_out"/>
+										<field name="terlambat"/>
+										<field name="total_lembur"/>
+									</tree>
+									<form string="Details">
+										<group>
+											<group>
+												<field name="tanggal"/>
+												<field name="day_type"/>
+											</group>
+											<group>
+												<field name="sign_in"/>
+												<field name="sign_out"/>
+												<field name="terlambat"/>
+												<field name="total_lembur"/>
+											</group>
+										</group>
+									</form>
+								</field>
+							</page>
+							<page string="Notes">
+								<field name="desc" nolabel="1"/>
+							</page>
+							<page string="Audit Trial">
+								<group id="hr_overtime_detail_audit" colspan="4" col="3">
+									<field name="create_by"/>
+									<field name="create_time" nolabel="1"/>
+									<field name="approve_by"/>
+									<field name="approve_time" nolabel="1"/>
+									<field name="cancel_by"/>
+									<field name="cancel_time" nolabel="1"/>
+							   </group>	
+							</page>
+						</notebook>
+					</sheet>
+				</form>
+			</field>
+		</record>
+		<record id="hr_timesheet_calc_action" model="ir.actions.act_window">
+			<field name="name">Timesheet Calc</field>
+			<field name="res_model">hr.audit_timesheet_employee</field>
+			<field name="view_type">form</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+		<record id="hr_timesheet_calc_action_tree" model="ir.actions.act_window.view">
+			<field name="sequence" eval="10"/>
+			<field name="view_mode">tree</field>
+			<field name="view_id" ref="hr_timesheet_calc_view_tree"/>
+			<field name="act_window_id" ref="hr_timesheet_calc_action"/>
+		</record>
+		<record id="hr_timesheet_calc_action_form" model="ir.actions.act_window.view">
+			<field name="sequence" eval="20"/>
+			<field name="view_mode">form</field>
+			<field name="view_id" ref="hr_timesheet_calc_view_form"/>
+			<field name="act_window_id" ref="hr_timesheet_calc_action"/>
+		</record>
+		<menuitem
+			id="hr_timesheet_calc_menu"
+			sequence="17"
+			parent="hr_timemanagement_menu"
+			name="Timetsheet Process"
+			action="hr_timesheet_calc_action"
+			/>
+	</data>
+</openerp>

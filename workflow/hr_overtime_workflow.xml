@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<openerp>
+	<data>
+		<record id="wkf_hr_overtime" model="workflow">
+			<field name="name">Overtime</field>
+			<field name="osv">hr.overtime</field>
+			<field name="on_create">True</field>
+		</record>	
+		<record id="act_draft_overtime" model="workflow.activity">
+			<field name="wkf_id" ref="wkf_hr_overtime"/>
+			<field name="name">draft</field>
+			<field name="flow_start">True</field>
+			<field name="kind">dummy</field>
+		</record>
+		<record id="act_confirm_overtime" model="workflow.activity">
+			<field name="wkf_id" ref="wkf_hr_overtime"/>
+			<field name="name">confirm</field>
+			<field name="action">workflow_action_confirm()</field>
+			<field name="kind">function</field>
+		</record>
+		<record id="act_approve_overtime" model="workflow.activity">
+			<field name="wkf_id" ref="wkf_hr_overtime"/>
+			<field name="name">approve</field>
+			<field name="action">workflow_action_approve()</field>
+			<field name="kind">function</field>
+			<field name="flow_stop" eval="True"/>
+		</record>
+		<record id="act_cancel_overtime" model="workflow.activity">
+			<field name="wkf_id" ref="wkf_hr_overtime"/>
+			<field name="name">cancel</field>
+			<field name="action">workflow_action_cancel()</field>
+			<field name="kind">function</field>
+			<field name="flow_stop" eval="True"/>
+		</record>
+		<record id="transition_draftToconfirm" model="workflow.transition">
+			<field name="act_from" ref="act_draft_overtime"/>
+			<field name="act_to" ref="act_confirm_overtime"/>
+			<field name="signal">button_confirm</field>
+			<field name="condition">True</field>
+		</record>
+		<record id="transition_confirmToapprove" model="workflow.transition">
+			<field name="act_from" ref="act_confirm_overtime"/>
+			<field name="act_to" ref="act_approve_overtime"/>
+			<field name="signal">button_approve</field>
+			<field name="condition">True</field>
+		</record>
+		<record id="transition_draftTocancel" model="workflow.transition">
+			<field name="act_from" ref="act_draft_overtime"/>
+			<field name="act_to" ref="act_cancel_overtime"/>
+			<field name="signal">button_cancel</field>
+			<field name="condition">True</field>
+		</record>
+		<record id="transition_confirmTocancel" model="workflow.transition">
+			<field name="act_from" ref="act_confirm_overtime"/>
+			<field name="act_to" ref="act_cancel_overtime"/>
+			<field name="signal">button_cancel</field>
+			<field name="condition">True</field>
+		</record>
+		<record id="transition_approve_To_cancel" model="workflow.transition">
+			<field name="act_from" ref="act_approve_overtime"/>
+			<field name="act_to" ref="act_cancel_overtime"/>
+			<field name="signal">button_cancel</field>
+			<field name="condition">True</field>
+		</record>
+	</data>
+</openerp>

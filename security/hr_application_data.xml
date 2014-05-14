@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+		<record id="hr_timetable_app" model="ir.module.category">
+			<field name="name">Timetable</field>
+		</record>
+		<record id="hr_overtime_app" model="ir.module.category">
+			<field name="name">Overtime</field>
+		</record>
+		<record id="hr_audit_app" model="ir.module.category">
+			<field name="name">Audit</field>
+		</record>
+
+
+	</data>
+</openerp>

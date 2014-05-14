@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+		<record id="hr_recon_view_tree" model="ir.ui.view">
+			<field name="name">Reconsiliation</field>
+			<field name="model">hr.recon</field>
+			<field name="type">tree</field>
+			<field name="arch" type="xml">
+				<tree string="Reconsiliation">
+						<field name="ref_id"/>
+						<field name="name"/>
+						<field name="date"/>
+				</tree>
+			</field>
+		</record>
+		<record id="hr_recon_view_form" model="ir.ui.view">
+			<field name="name">Reconsiliation</field>
+			<field name="model">hr.recon</field>
+			<field name="type">tree</field>
+			<field name="arch" type="xml">
+				<form string="Reconsiliation" version="7.0">
+					<sheet>
+						<group>
+							<group>
+								<field name="ref_id"/>
+								<field name="name"/>
+								<field name="date"/>
+							</group>
+						</group>
+					</sheet>
+				</form>
+			</field>
+		</record>
+		<record id="hr_recon_action" model="ir.actions.act_window">
+			<field name="name">Reconsiliation</field>
+			<field name="res_model">hr.recon</field>
+			<field name="view_type">form</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="view_mode">form</field>
+		</record>
+		<record id="hr_recon_action_tree" model="ir.actions.act_window.view">
+			<field name="sequence" eval="10"/>
+			<field name="view_mode">tree</field>
+			<field name="view_id" ref="hr_recon_view_tree"/>
+			<field name="act_window_id" ref="hr_recon_action"/>
+		</record>
+		<record id="hr_recon_action_form" model="ir.actions.act_window.view">
+			<field name="sequence" eval="20"/>
+			<field name="view_mode">form</field>
+			<field name="view_id" ref="hr_recon_view_form"/>
+			<field name="act_window_id" ref="hr_recon_action"/>
+		</record>
+		<menuitem
+			id="hr_recon_menu"
+			sequence="25"
+			parent="hr_timemanagement_menu"
+			name="Attendance Reconsiliation"
+			action="hr_recon_action"
+			/>
+
+	</data>
+</openerp>
